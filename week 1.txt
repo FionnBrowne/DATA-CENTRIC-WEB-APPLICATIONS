@@ -1,0 +1,71 @@
+1.1) use employeesdb100
+     show tables;
+
+1.2)describe employees; (it will show pri for the primary key)
+
+1.3)describe titles; (emp_no, title, from_date)
+
+1.4)SELECT * FROM employees WHERE first_name LIKE "G%" AND last_name LIKE"D%";
+
+1.5)show tables;
+    describe departments;
+    select * from departments;
+    select dept_no, substr(dept_name, 1, 4) from departments;
+
+1.6)select dept_no as Number, substr(dept_name, 1, 4) as Abbreviation from departments;
+  
+1.7)duplicate
+
+1.8)it doesnt work because  birth_date value wasnt givin so it was automatically made to 0 but it doesnt accept 0 values
+
+1.9) select dept_name from departments where dept_no = "d005";
+
+1.10)show tables;
+    select * from salaries limit1;
+    select * from salaries where salary >= 101000;
+    select salary from salaries where salary >= 101000;
+    select salary as money from salaries where salary >= 101000;
+
+1.11) select * from employees where hire_date >= "1987-01-01" and hire_date <= "1987-12-31";
+or
+      select * from employees where hire_date like "1987%";
+or 
+      select * from employees where YEAR(hire_date) = "1987";
+
+1.12)select * from employees where YEAR(hire_date) = "1987" and YEAR(birth_date) >= 1960;
+
+1.13)describe dept_emp;
+     select * from dept_emp limit 4;
+     select * from dept_emp where dept_no = "d005";
+     select * from dept_emp where dept_no = "d005" and from_date >= "1986-06-01";
+
+1.14)describe salaries;
+     select * from salaries limit 5;
+     select * from salaries where salary > 65000;
+     select * from salaries where salary > 65000 and YEAR(from_date) >= 1980 and YEAR(from_date) <= 1989;
+
+1.15)update employees set last_name = concat( "Mr. ", last_name) where month(birth_date) = 11 and gender = "M";
+     select * from employees where month(Birth_date) = 11;
+
+2.1)select count(sid) from salesperson_table;
+    select count(commission) from salesperson_table;
+    select count(commission) as "Number of Commissions" from salesperson_table;
+
+2.2)select min(dob) from salesperson_table;
+
+2.3) select sum(commission) from salesperson_table where city = "Boston";
+
+2.4)select city, max(commission) from salesperson_table group by city;
+
+2.5)select sid, count(city) from salesperson_table group by sid;
+     
+2.6)select monthname(dob),count(dob) from salesperson_table group by monthname(dob);
+
+2.7)select city, avg(commission) from salesperson_table group by city having avg(commission) > 3.5;
+
+2.8)select city, avg(commission) from salesperson_table where commission > 3.6 group by city;
+
+2.9)select city, avg(commission) from salesperson_table where commission > 3.6 group by city having avg(commission) > 4.7;
+
+    
+    
