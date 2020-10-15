@@ -1,0 +1,69 @@
+1.1) use salespersonsdb2p1;
+     show create table salesperson_table;
+
+
+1.2)describe salesperson_city_table;
+    show create table salesperson_city_table;
+
+1.3)select * from salesperson_city_table;
+    select * from salesperson_table;
+     delete from salesperson_table where sid = "S102";
+wont allow you to delete because it was in another table salesperson_city_table
+
+1.4)delete from salesperson_table where sid = "S106";
+
+1.5)insert into salesperson_table values ("S107", "Tom", "Wilson", "1966-07-12");
+    select * from salesperson_city_table;
+    select * from salesperson_table;
+
+1.6)insert into salesperson_table values ("S108", "Pat", "O,Hara", "1966-07-12");
+    select * from salesperson_city_table;
+    select * from salesperson_table;
+
+1.7)drop table salesperson_city_table; // no forign key
+
+    create table city_table (cid varchar(3), name varchar(20), state varchar(2), primary key(cid)) engine=innodb charset=latin1;
+    insert into city_table value ("ATL", "Atlanta", "GA");
+    insert into city_table value ("BOS", "Boston", "MA");
+    insert into city_table value ("HOU", "Huston", "TX");
+    insert into city_table value ("LA", "Los Angeles", "CA");
+    insert into city_table value ("NY", "New York", "NY");
+    select * from city_table;
+
+1.8) create table salesperson_city_table (sid varchar(20), cid varchar(3), commission double(4,2), primary key (sid,cid),
+ foreign key(sid) references salesperson_table(sid), foreign key(cid) references city_table(cid)) engine=innodb charset=latin1;
+
+1.9)select * from city_table;
+    insert into salesperson_city_table value ("S100", "BOS", 4.10);
+    insert into salesperson_city_table value ("S100", "NY", 5.20);
+    insert into salesperson_city_table value ("S101", "BOS", 3.20);
+    insert into salesperson_city_table value ("S102", "DAL", 3.09);
+
+    insert into salesperson_city_table (sid, cid) values ("S103", "DAL");
+    insert into salesperson_city_table value ("S104", "ATL", 3.23);
+    insert into salesperson_city_table value ("S104", "BOS", NULL);
+    insert into salesperson_city_table value ("S105", "BOS", 5.13);
+
+1.10)delete from city_table where name = "Huston";
+
+1.11) restricts deletion because boston was used in salesperson_city_table it cannotbe deleted
+
+1.12)alter table salesperson_city_table drop foreign key salesperson_city_table_ibfk_2;
+     alter table salesperson_city_table add constraint cid_fk foreign key(cid) references city_table(cid) on delete cascade;
+
+1.13)delete from city_table where name = "Boston";
+
+2.1)select if(true, "Yes true", "No false");
+    select fname, surname, salary, IF(salary>50000,"HIGH","") from salesperson_table;
+    select fname, surname, salary, IF(salary>50000,"HIGH","") as Band from salesperson_table;
+
+2.2)select fname, surname, dob, IF(dayofweek(dob) in (1,7),"YES","NO") from salesperson_table;
+    select fname, surname, dob, IF(dayofweek(dob) in (1,7),"YES","NO") as "Week Part" from salesperson_table;
+
+2.3)select *, IF(cid="BOS", "Review", "") as Review from salesperson_city_table;
+    
+2.4)select *, CASE WHEN month(dob) in (2,3,4) THEN "Spring" When month(dob) in (5,6,7) Then "Summer"
+ When month(dob) in (8,9,10) Then "Autumn" When month(dob) in (11,12,13) Then "Winter" END as Season from salesperson_table;
+
+2.5)select fname, surname, salary, CASE WHEN salary BETWEEN 40000.00 AND 49999.99 THEN "40K" WHEN salary BETWEEN 50000.00 AND 59999.99 THEN "50K"
+ WHEN salary BETWEEN 60000.00 AND 69999.99 THEN "60K" ELSE "Out of Range" END as "Salary Scope" from salesperson_table;
