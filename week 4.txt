@@ -1,0 +1,53 @@
+1) mongo.exe"
+   use userdb
+   db  // to check if database was made
+   
+2)show collections// to check if its empty
+  db.users.save()
+  db.users.save({_id:100, fname:"John", surname:"Smith", age:33, email:"jsmith@gmail.com", carReg:"131-G-101"})
+  db.users.save({_id:101, fname:"Sean", surname:"Murphy", age:21, email:"seanmurphy@yahoo.com", carReg:"04-WH-235"})
+  db.users.save({_id:102, fname:"Aine", surname:"Browne", age:23, email:"abrowne@gmail.com"})
+  db.users.save({_id:103, fname:"Alan", surname:"Murphy", age:24, email:"murpha@hotmail.com", carReg:"07-RN-9988"})
+  db.users.save({_id:104, fname:"Sarah", surname:"Doyle", age:23, email:"sarah@gmail.com", carReg:"142-G-2343"})
+  db.users.save({_id:105, fname:"Bill", surname:"Mulligan", age:19, email:"billy123@gmail.com"})
+  db.users.save({_id:106, fname:"Shane", surname:"Kelly", age:24, email:"sk998@yahoo.com"})
+  db.users.save({_id:107, fname:"Will", surname:"Doyle", age:19, email:"doyler123@gmail.com", carReg:"10-G-2353"})
+  db.users.find({}) to check existing users
+
+3)show collections//see what collections exist
+  db.users.find({})//shows all users in collection
+
+4)db.users.find({age:19})//shows all users in collection with the age of 19
+
+5)db.users.find({age:{$gt: 19}})//$gt looks for values grater then given
+
+6)db.users.find({age:{$gt: 19}, carReg: { $exists : true }}) //$exists takes boolean value to check if variable is stored
+  db.users.find({$and: [{age:{$gt:19}},{carReg:{$exists:true}}]})//second option
+
+7)db.users.find({age:{$gt: 20}, _id: {$gt : 104 }})
+  db.users.find({$and: [{_id:{$gt:104}},{age:{$gt:20}}]})//option 2
+
+8)db.users.findOne({carReg: {$exists:true}})
+
+9)db.users.save({_id:106, carReg:"12-G-1234"})//over wrote all other attributes in the document with these two attributes
+
+10)db.users.update({_id:102}, {carReg:"10-G-9876"})//over wrote all other attributes in the document with these two attributes the save command calls update command
+
+11)db.users.update({_id:105}, {$set:{carReg:"161-MO-4"}})//$set ads new attribute
+
+12)db.users.update({_id:106}, {$set:{fname:"Shane",surname:"Kelly",age:24,email:"sk998@yahoo.com"}})//update attribute if it exists with $set if it doesnt exist it creats it
+
+13)db.users.update({}, {$inc:{age:-1}})//updates first
+   db.users.update({}, {$inc:{age:1}},{multi:true})//updates all
+   db.users.updateMany({}, {$inc:{age:1}})//option 2
+
+14)db.users.updateMany({_id:{$in:[100,101,102,103,105,106,107]}},{$set:{sex:"M"}})//update all but 104 sex to male
+   db.users.updateMany({sex:{$ne:"M"}},{$set:{sex:"F"}})//$ne checks if any variables arent M and if not get changed to F
+
+15)db.users.updateMany({$and:[{sex:"M"},{age:{$gt:20}}]},{$set:{title:"Mr."}})//$and takes an array and performs a logical on two or more arrays
+
+16)db.users.updateMany({$or:[{_id:101},{_id:103},{_id:107}]},{$unset:{carReg:""}})//removes there car attribute for selected with $unset
+
+17)db.users.find({$and:[{_id:{$gte:101}},{_id:{$lte:107}}]},{fname:1, surname:1, age:1, sex:1})//$gte & $lte sets range of values //and the restonly displays selected attributes
+
+18)db.users.updateMany({},{$rename:{fname:"Name"}})//set all to the new name
