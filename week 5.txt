@@ -1,0 +1,64 @@
+Getting started
+
+db
+usersDB
+use userDB
+show collections
+
+1.)db.users2.insertOne({_id:100, fname:"John", surname:"Smith", age:35, email:"jsmith@gmail.com", sex:"M", title:"Mr", car:{reg:"131-G-101", fuel:"petrol"}})
+   db.users2.insertOne({_id:101, fname:"Sean", surname:"Murphy", age:22, email:"seanmurphy@yahoo.com", sex:"M", title:"Mr", car:{reg:"172-G-200", electric:true}})
+   db.users2.insertOne({_id:102, fname:"Aine", surname:"Browne", age:23, email:"abrowne@gmail.com", sex:"F", title:"Ms"})
+   db.users2.insertOne({_id:103, fname:"Alan", surname:"Murphy", age:25, email:"murpha@hotmail.com", sex:"M"})
+   db.users2.insertOne({_id:104, fname:"Sarah", surname:"Doyle", age:24, email:"sarah@gmail.com", sex:"F", car:{reg:"141-MO-123", fuel:"diesel"}})
+   db.users2.insertOne({_id:105, fname:"Bill", surname:"Mulligen", age:20, email:"billy123@gmail.com", sex:"M", car:{reg:"12-RN-445", fuel:"petrol"}})
+   db.users2.insertOne({_id:106, fname:"Shane", surname:"Kelly", age:25, email:"sk998@yahoo.com", sex:"M", title:"Mr", car:{reg:"11-WH-7783", fuel:"petrol"}})
+   db.users2.insertOne({_id:107, fname:"Will", surname:"Doyle", age:20, email:"doyler123@yahoo.com", sex:"M", title:"Mr"})
+
+   db.users.find()//users is empty
+   show collections//  shows users2
+   db.users2.find()// shows all of users2
+
+2.)db.users2.getIndexes()// only one index 1 posotive means inceading
+
+3.)db.users2.createIndex({age:1})//ads an incending index age
+
+4.) db.users2.createIndex({surname:-1})// adds a decending index surname
+
+5.)db.users2.createIndex({age:-1})// creates age with a decending attribute
+
+6.)db.users2.dropIndex("age_1")//or
+   db.users2.dropIndex({age:1})
+   db.users2.getIndexes()//to check   
+
+7.)db.users2.find({car:{$exists:false}})//checks those who dont have a car
+   db.users2.find({car:{$exists:false}}, {fname:1, surname:true})//only shows first name and surname with id
+   db.users2.find({car:{$exists:false}}, {_id:0, fname:1, surname:true})//requests it without id
+
+8.)db.users2.find({car:{$exists:true}}, {_id:0, fname:1, surname:1, reg:1, fuel:1})// no reg or fuel exists on top level documents they are sub level
+   db.users2.find({car:{$exists:true}}, {_id:0, fname:1, surname:1, "car.reg":1, "car.fuel":1})
+
+9.)db.users2.find({}, {car:0}).sort({fname:1})//needs 2 paramaters
+
+10.)db.users2.find({}, {_id:0, car:1})
+    db.users2.find({car:{$exists:1}}, {_id:0, car:1})
+    db.users2.find({car:{$exists:1}}, {_id:0, car:1}).sort({"car.reg":1})
+
+11.)db.users2.find({"car.electric":{$exists:1}})
+    db.users2.find({"car})
+
+12.)db.users2.find({"car.fuel":"petrol"}, {_id:0, fname:1, surname:1})
+
+13.)db.users2.find({sex:"F"})//checks for all femals
+    db.users2.find({$and: [{sex:"F"}, {age: {$gte:21}}, {age: {$lte:24}}]}) //$gte means greater or equal to// $lte means <= to value
+    db.users2.deleteMany({$and: [{sex:"F"}, {age: {$gte:21}}, {age: {$lte:24}}]})//deleated the selected section
+
+14.)db.users2.update({"car.fuel":{$exists:1}}, {$unset:{"car.fuel":1}})//updated only one document
+    db.users2.updateMany({"car.fuel":{$exists:1}}, {$unset:{"car.fuel":1}})//to update all documents//or
+    db.users2.update({"car.fuel":{$exists:1}}, {$unset:{"car.fuel":1}}, {multi:1})//option 2
+
+15.)db.users2.find({car:{$exists:1}})//find out who owns a car
+    db.users2.updateMany({car:{$exists:1}}, {$set: {title: "Owner"}})//gave all now documents new tittle owner through $set to give all a title
+
+16.)db.users2.find({$and:[{sex:"M"},{car:{$exists:1}}]})// all male who own a car
+    db.users2.updateMany({$and:[{sex:"M"},{car:{$exists:1}}]}, {$inc: {age:10}})//$inc age increased the age of all male drivers by 10
+    
